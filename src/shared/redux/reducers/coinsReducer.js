@@ -1,6 +1,5 @@
 import {FETCH_COINS_SUCCESS} from "../actions/actionTypes";
-import {default} from "react-redux/es/utils/Subscription";
-
+import {getNewState} from '../../utils/frontend'
 const initialState = {
     coins: []
 };
