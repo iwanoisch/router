@@ -11,7 +11,7 @@ export default function coinsReducer(
 ) {
     switch (action.type) {
         case FETCH_COINS_SUCCESS:
-            //const { payload: coins } = action;
+            // const { payload: coins } = action;
             const coins = action.payload;
 
             return getNewState(state, {

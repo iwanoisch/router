@@ -8,8 +8,10 @@ import AppRoutes from "./AppRoutes";
 import {Provider} from "react-redux";
 import configureStore from "./shared/redux/confitureStore";
 
+const store = configureStore();
+
 ReactDOM.render(
-    <Provider store={configureStore}>
+    <Provider store={store}>
         <Router>
             <AppRoutes />
         </Router>
