@@ -1,30 +1,32 @@
 import * as React from "react";
 import { connect } from 'react-redux';
 import {fetchCoins} from '../../shared/redux/actions/coinsActions'
-import {array} from "prop-types";
+import { array } from 'prop-types';
 
+import './Coins.css'
 import {isFirstRender} from '../../shared/utils/frontend'
 
 
 class Coins extends React.Component{
     static propsTypes = {
-        fetchCoins: typeof fetchCoins
+        fetchCoins: typeof fetchCoins,
+        coins: array
     };
 
     componentDidMount() {
        // const fetchCoins =
-            this.props.fetchCoins();
+        this.props.fetchCoins();
         // const { fetchCoins } = this.props;
 
-        fetchCoins();
+       // fetchCoins();
     }
 
     render() {
-        const coins =this.props.coins;
-        console.log(this.props.coins);
-        console.log(this.props);
-        // const { coins: { coins } } = this.props;
-        //
+        const coins = this.props.coins.coins;
+        console.log('coins', coins);
+
+        //const { coins: { coins } } = this.props;
+
         // if (isFirstRender(coins)) {
         //     return null;
         // }
@@ -32,9 +34,21 @@ class Coins extends React.Component{
             <div className="Coins">
                 <h1>Top 100 Coins</h1>
                 <ul>
-                    {coins.map((coin, key) => (
-                        <li key={key}>{coin}</li>
-                        )
+                    {coins && coins.map(
+                        (coin) => {
+                            if (coin){
+                                return(
+                                    <li key={coin.id}>
+                                        <span className='left'>
+                                            {coin.rank}
+                                            {coin.name}
+                                            {coin.symbol}
+                                        </span>
+                                        <span className="right">{coin.price_usd}</span>
+                                    </li>)
+                            }
+
+                        }
                     )}
                 </ul>
             </div>
@@ -42,14 +56,32 @@ class Coins extends React.Component{
     }
 }
 
-const mapStateToProps = (state) => ({
-    coins: state.coins.coins
-});
+function mapStateToProps(state) {
+    return {
+        coins: state.coins.coins
+    }
+}
 
-const mapDispatchToProps = dispatch => ({
-    fetchCoins: () => dispatch(fetchCoins())
+function mapDispatchToProps(dispatch) {
+    return {
+        fetchCoins: () => dispatch(fetchCoins())
+    }
+}
 
-});
+// const mapStateToProps = ({coins}) => ({
+//     coins
+// });
 
+// const mapDispatchToProps = dispatch => ({
+//     fetchCoins: () => dispatch(fetchCoins())
+//
+// });
+
+// const mapDispatchToProps = dispatch => bindActionCreators(
+//     {
+//         fetchCoins
+//     },
+//     dispatch
+// );
 
 export default connect(mapStateToProps,mapDispatchToProps)(Coins);

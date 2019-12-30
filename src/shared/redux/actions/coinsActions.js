@@ -1,9 +1,30 @@
-import axios from 'axios';
 import {restapi} from '../../../store/restapi/restapi'
 
-import {error, received, request} from "../baseActions";
-import {FETCH_COINS_ERROR, FETCH_COINS_REQUEST, FETCH_COINS_SUCCESS} from "./actionTypes";
+import { FETCH_COINS_REQUEST, FETCH_COINS_SUCCESS} from "./actionTypes";
 
+export function fetchCoins() {
+    return async (dispatch) => {
+        dispatch(fetchRequest());
+        const res = await restapi.get('/5e06227e3300000eddec5c9f');
+       // console.log('axios', res);
+        dispatch(getFetch(res.data))
+    }
+}
+
+export function fetchRequest() {
+    return {
+        type: FETCH_COINS_REQUEST
+    }
+}
+
+export function getFetch(coins) {
+        return {
+            type: FETCH_COINS_SUCCESS,
+            payload: {
+                coins: coins
+            }
+        }
+}
 
 
 // export function fetchCoins() {
@@ -19,20 +40,20 @@ import {FETCH_COINS_ERROR, FETCH_COINS_REQUEST, FETCH_COINS_SUCCESS} from "./act
 //     };
 // }
 
-export function fetchCoins() {
-    return async (dispatch) => {
-        dispatch(request(FETCH_COINS_REQUEST));
-        const axiosData = await restapi.get('/5e06227e3300000eddec5c9f');
-
-    return axios(axiosData)
-        .then(response => dispatch(received(FETCH_COINS_SUCCESS, response.data)))
-        .catch(err => {
-            console.log('AXIOS ERROR:', err.response);
-            dispatch(error(FETCH_COINS_ERROR))
-        })
-    };
-}
-
+//
+// export function fetchCoins() {
+//     return async (dispatch) => {
+//         dispatch(request(FETCH_COINS_REQUEST));
+//         const axiosData = await restapi.get('/5e06227e3300000eddec5c9f');
+//         console.log('axios', axiosData);
+//         return axios(axiosData.data)
+//             .then(response => dispatch(received(FETCH_COINS_SUCCESS, response.data)))
+//             .catch(err => {
+//                 console.log('AXIOS ERROR:', err.response);
+//                 dispatch(error(FETCH_COINS_ERROR))
+//             })
+//     };
+// }
 
 
 // export  const  fetchCoins = () => dispatch => {
